@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>编辑文章</title>
+    <link rel="stylesheet" href="../../editormd/examples/css/style.css" />
+    <link rel="stylesheet" href="../../editormd/css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+
+    <script src="../../js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<div id="layout">
+
+    <form action="/zhifou/article/save" method="post">
+        <div id="test-editormd">
+        <textarea style="display:none;" name="text">
+            请在此处编辑你的文章
+        </textarea>
+        </div>
+        <div class="a"></div>
+        <label>数码<input type="checkbox" name="checkbox" value="数码"></label>
+        <label>视频<input type="checkbox" name="checkbox" value="视频"></label>
+        <label>电影<input type="checkbox" name="checkbox" value="电影"></label>
+        <label>科学<input type="checkbox" name="checkbox" value="科学"></label>
+        <label>运动<input type="checkbox" name="checkbox" value="运动"></label>
+        <input type="submit" value="提交" class="btn btn-primary">
+    </form>
+
+</div>
+<script src="../../js/jquery-3.1.1.min.js"></script>
+<script src="../../editormd/editormd.min.js"></script>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width   : "90%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "/editormd/lib/"
+        });
+
+        /*
+        // or
+        testEditor = editormd({
+            id      : "test-editormd",
+            width   : "90%",
+            height  : 640,
+            path    : "../lib/"
+        });
+        */
+    });
+</script>
+
+<script src="../../js/header.js"></script>
+<script src="../../js/article.js"></script>
+</body>
+</html>

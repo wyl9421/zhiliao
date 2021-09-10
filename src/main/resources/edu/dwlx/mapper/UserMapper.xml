@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.dwlx.mapper.UserMapper">
+
+    <insert id="insertUser" parameterType="edu.dwlx.entity.User">
+        insert into user(name, password)
+            values(#{name}, #{password})
+    </insert>
+
+    <update id="createFollowerTable" parameterType="edu.dwlx.entity.User">
+        create table #{uid}_follower (uid int(20) primary key)
+    </update>
+
+    <update id="createFollowingTable" parameterType="edu.dwlx.entity.User">
+        create table #{uid}_following (uid int(20) primary key)
+    </update>
+
+    <update id="createCollectAnswerTable" parameterType="edu.dwlx.entity.User">
+        create table #{uid}_collect_answer
+            (id int(20), uid int(20), questionId int(20), content varchar(200), agree int(20), comment varchar(20), collection int(20), createDate date )
+    </update>
+
+    <update id="createCollectArticleTable" parameterType="edu.dwlx.entity.User">
+        create table #{uid}_collect_article (articleId int(20) primary key)
+    </update>
+
+    <update id="createUserAnswerTable" parameterType="edu.dwlx.entity.User">
+        create table #{uid}_answer
+            (id int(20), uid int(20), questionId int(20), content varchar(200),
+             agree int(20), comment varchar(20), collection int(20), createDate date )
+    </update>
+
+    <update id="updateUser" parameterType="edu.dwlx.entity.User">
+        update user
+            set name=#{name},password=#{password},nickname=#{nickname},gender=#{gender},career=#{career},introduction=#{introduction},address=#{address},registerDate=#{registerDate},
+            email=#{email},following=#{following},follower=#{follower},collectArticle=#{collectArticle},collectAnswer=#{collectAnswer},answer=#{answer},likeCount=#{likeCount}
+        where uid=#{uid}
+    </update>
+
+    <select id="searchCollectAnswerByUid" parameterType="Integer" resultType="edu.dwlx.entity.Answer">
+        select * from #{uid}_collect_answer
+    </select>
+
+    <select id="searchCollectArticleByUid" parameterType="Integer" resultType="edu.dwlx.entity.Article">
+        select * from article where id in
+            (
+                select articleId from #{uid}_collect_article
+            )
+    </select>
+
+    <select id="searchAnswerByUid" parameterType="Integer" resultType="edu.dwlx.entity.Answer">
+        select * from #{uid}_answer
+    </select>
+
+    <select id="searchFollowerByUid" parameterType="Integer" resultType="edu.dwlx.entity.User">
+        select * from user where uid in
+            (
+                select * from #{uid}_follower
+            )
+    </select>
+
+    <select id="findFollowingUid" resultType="Integer">
+        select * from #{uid}_following
+    </select>
+
+    <select id="searchFollowingByUid" resultType="edu.dwlx.entity.User">
+        select * from user where uid IN
+            (
+                select * from #{uid}_following
+            )
+    </select>
+
+    <select id="searchUserById" parameterType="Integer" resultType="edu.dwlx.entity.User">
+        select * from user where uid=#{uid};
+    </select>
+
+    <select id="searchUserByName" parameterType="String" resultType="edu.dwlx.entity.User">
+        select * from user where name = #{name}
+    </select>
+
+    <insert id="insertFollower">
+        insert into #{uid}_follower(uid) values(#{followerId})
+    </insert>
+
+    <delete id="deleteFollower">
+        delete from #{uid}_follower where uid=#{followerId}
+    </delete>
+
+    <insert id="insertFollowing">
+        insert into #{uid}_following(uid) values(#{followingId})
+    </insert>
+
+    <delete id="deleteFollowing">
+        delete from #{uid}_following where uid=#{followingId}
+    </delete>
+
+    <insert id="insertCollectArticle">
+        insert into #{uid}_collect_article values(#{articleId})
+    </insert>
+
+    <delete id="deleteCollectArticle">
+        delete from #{uid}_collect_article where articleId=#{articleId}
+    </delete>
+
+    <insert id="insertCollectAnswer" parameterType="java.util.Map">
+        insert into #{uid}_collect_answer(id, uid, questionId, content, agree, comment, collection, createDate)
+            values(#{id}, #{answerUid}, #{questionId}, #{content}, #{agree}, #{comment}, #{collection}, #{createDate})
+    </insert>
+
+    <delete id="deleteCollectAnswer" parameterType="java.util.Map">
+        delete from #{uid}_collect_answer where id=#{id} and questionId=#{questionId}
+    </delete>
+
+    <insert id="insertUserAnswer" parameterType="edu.dwlx.entity.Answer">
+        insert into #{uid}_answer(id, uid, questionId, content, agree, comment, collection, createDate)
+            values(#{id}, #{uid}, #{questionId}, #{content}, #{agree}, #{comment}, #{collection}, #{createDate})
+    </insert>
+
+    <delete id="deleteUserAnswer" parameterType="edu.dwlx.entity.Answer">
+        delete from #{uid}_answer where id=#{id} and questionId=#{questionId}
+    </delete>
+
+    <update id="getAgree">
+        update user set likeCount = likeCount+1 where uid=#{uid}
+    </update>
+</mapper>

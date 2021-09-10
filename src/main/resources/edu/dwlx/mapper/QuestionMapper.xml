@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.dwlx.mapper.QuestionMapper">
+    <insert id="insertQuestion" parameterType="edu.dwlx.entity.Question">
+        insert into question(uid, content, introduction, tag, agreeCount, comment, answer, follower, viewCount, collectCount, createDate)
+        values(#{uid}, #{content}, #{introduction}, #{tag}, #{agreeCount}, #{comment}, #{answer}, #{follower}, #{viewCount}, #{collectCount}, #{createDate})
+    </insert>
+
+    <update id="createQuestionCommentTable" parameterType="edu.dwlx.entity.Question">
+        create table #{id}_question_comment (id int(20) auto_increment primary key, uid int(20),
+                    content varchar(200), agree int(20), toWho int(20), createDate date)
+    </update>
+
+    <update id="createQuestionAnswerTable" parameterType="edu.dwlx.entity.Question">
+        create table #{id}_question_answer (id int(20) auto_increment primary key, uid int(20), questionId int(20),
+                    content varchar(200), agree int(20), comment varchar(20), collection int(20), createDate date )
+    </update>
+
+    <update id="createQuestionFollowerTable" parameterType="edu.dwlx.entity.Question">
+        create table #{id}_question_follower (uid int(20) primary key)
+    </update>
+
+    <update id="updateQuestion" parameterType="edu.dwlx.entity.Question">
+        update question set uid=#{uid}, content=#{content}, introduction=#{introduction}, tag=#{tag}, agreeCount=#{agreeCount},
+            comment=#{comment}, answer=#{answer}, follower=#{follower}, viewCount=#{viewCount}, collectCount=#{collectCount}, createDate=#{createDate}
+        where id = #{id}
+    </update>
+
+    <select id="searchQuestionByUid" resultType="edu.dwlx.entity.Question">
+        select * from question where uid = #{uid}
+    </select>
+
+    <select id="searchQuestionByTag" resultType="edu.dwlx.entity.Question">
+        select * from question
+        <where>
+            <if test="tag !=null and tag !=''">
+                and tag like concat('%', #{tag}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="searchQuestionByContent" resultType="edu.dwlx.entity.Question">
+        select * from question
+        <where>
+            <if test="content !=null and content !=''">
+                and content like concat('%', #{content}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="searchQuestionById" resultType="edu.dwlx.entity.Question">
+        select * from question where id = #{id}
+    </select>
+
+    <select id="searchQuestionByContentAndUid" resultType="edu.dwlx.entity.Question">
+        select * from question where content = #{content} and uid = #{uid}
+    </select>
+
+    <select id="searchQuestionFollower" resultType="edu.dwlx.entity.User">
+        select * from user where uid in
+        (
+            select * from #{follower}
+        )
+    </select>
+
+<!--    <insert id="insertQuestionComment">-->
+<!--        insert into #{questionId}_question_comment(uid, content, agree, toWho, createDate)-->
+<!--            values(#{uid}, #{content}, #{agree}, #{toWho}, #{createDate})-->
+<!--    </insert>-->
+<!--    -->
+<!--    <delete id="deleteQuestionComment">-->
+<!--        delete from #{questionId}_question_comment where id=#{id}-->
+<!--    </delete>-->
+
+    <insert id="insertQuestionFollower">
+        insert into #{questionId}_question_follower values(#{uid})
+    </insert>
+
+    <delete id="deleteQuestionFollower">
+        delete from #{questionId}_question_follower where uid=#{uid}
+    </delete>
+
+    <update id="getAgree">
+        update question set agree_count=agree_count+1 where id=#{questionId}
+    </update>
+
+    <update id="increasedTraffic">
+        update question set viewCount=viewCount+1 where id=#{questionId}
+    </update>
+
+    <update id="increasedCollection">
+        update question set collectCount=collectCount+1 where id=#{questionId}
+    </update>
+
+    <select id="getAllQuestion" resultType="edu.dwlx.entity.Question">
+        select * from question
+    </select>
+</mapper>
