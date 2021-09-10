@@ -14,7 +14,7 @@ spring:
     #    driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
+    password: root
     url: jdbc:mysql://localhost:3307/zhiliao?serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8&useSSL=false
   mvc:
     #    static-path-pattern: /**
