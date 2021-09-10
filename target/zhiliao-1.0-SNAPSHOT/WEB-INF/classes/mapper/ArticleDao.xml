@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiliao.app.dao.ArticleDao">
+
+    <resultMap type="com.zhiliao.app.entity.Article" id="ArticleMap">
+        <result property="at_id" column="at_id" jdbcType="INTEGER"/>
+        <result property="at_title" column="at_title" jdbcType="VARCHAR"/>
+        <result property="tag" column="tag" jdbcType="VARCHAR"/>
+        <result property="collection" column="collection" jdbcType="INTEGER"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createtime" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="agree" column="agree" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="add_article">
+        insert into
+            article(at_title, tag, content, agree, createtime,author)
+        values (#{article.at_title}, #{article.tag}, #{article.content}, 0, now(),#{name})
+    </insert>
+    <insert id="collect_article">
+            insert into collect_article(at_id,id)
+            values (#{at_id},#{id})
+
+    </insert>
+    <update id="addCollection">
+        update article set collection=collection+1 where at_id=#{at_id}
+    </update>
+    <update id="remove_article">
+        update article set deleted=1 where at_id=#{at_id}
+    </update>
+
+    <update id="edit_article">
+        <!--通过主键修改数据-->
+            update article
+            <set>
+                <if test="at_title != null and at_title != ''">
+                    at_title = #{at_title},
+                </if>
+                <if test="tag != null and tag != ''">
+                    tag = #{tag},
+                </if>
+                <if test="content != null and content != ''">
+                    content = #{content},
+                </if>
+            </set>
+            where at_id = #{at_id}
+    </update>
+    <update id="remove_collect_article">
+        update collect_article set deleted=1
+         where at_id=#{at_id} and id=#{id}
+    </update>
+    <update id="like_article">
+        update article set agree = agree+1 where at_id=#{at_id}
+    </update>
+    <delete id="decreaseCollection">
+        update article set collection=collection-1 where at_id=#{at_id}
+    </delete>
+</mapper>

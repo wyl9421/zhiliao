@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiliao.app.dao.CommentDao">
+
+    <resultMap type="com.zhiliao.app.entity.Comment" id="CommentMap">
+        <result property="co_id" column="co_id" jdbcType="INTEGER"/>
+        <result property="co_content" column="co_content" jdbcType="VARCHAR"/>
+        <result property="co_createtime" column="co_createtime" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+        <result property="agreecount" column="agreecount" jdbcType="INTEGER"/>
+    </resultMap>
+
+<!--    &lt;!&ndash;查询单个&ndash;&gt;-->
+<!--    <select id="queryById" resultMap="CommentMap">-->
+<!--        select-->
+<!--          co_id, co_content, co_createtime, deleted, agreecount-->
+<!--        from comment-->
+<!--        where co_id = #{coId}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;查询指定行数据&ndash;&gt;-->
+<!--    <select id="queryAllByLimit" resultMap="CommentMap">-->
+<!--        select-->
+<!--          co_id, co_content, co_createtime, deleted, agreecount-->
+<!--        from comment-->
+<!--        <where>-->
+<!--            <if test="coId != null">-->
+<!--                and co_id = #{coId}-->
+<!--            </if>-->
+<!--            <if test="coContent != null and coContent != ''">-->
+<!--                and co_content = #{coContent}-->
+<!--            </if>-->
+<!--            <if test="coCreatetime != null and coCreatetime != ''">-->
+<!--                and co_createtime = #{coCreatetime}-->
+<!--            </if>-->
+<!--            <if test="deleted != null">-->
+<!--                and deleted = #{deleted}-->
+<!--            </if>-->
+<!--            <if test="agreecount != null">-->
+<!--                and agreecount = #{agreecount}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        limit #{pageable.offset}, #{pageable.pageSize}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;统计总行数&ndash;&gt;-->
+<!--    <select id="count" resultType="java.lang.Long">-->
+<!--        select count(1)-->
+<!--        from comment-->
+<!--        <where>-->
+<!--            <if test="coId != null">-->
+<!--                and co_id = #{coId}-->
+<!--            </if>-->
+<!--            <if test="coContent != null and coContent != ''">-->
+<!--                and co_content = #{coContent}-->
+<!--            </if>-->
+<!--            <if test="coCreatetime != null and coCreatetime != ''">-->
+<!--                and co_createtime = #{coCreatetime}-->
+<!--            </if>-->
+<!--            <if test="deleted != null">-->
+<!--                and deleted = #{deleted}-->
+<!--            </if>-->
+<!--            <if test="agreecount != null">-->
+<!--                and agreecount = #{agreecount}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;新增所有列&ndash;&gt;-->
+<!--    <insert id="insert" keyProperty="coId" useGeneratedKeys="true">-->
+<!--        insert into comment(co_content, co_createtime, deleted, agreecount)-->
+<!--        values (#{coContent}, #{coCreatetime}, #{deleted}, #{agreecount})-->
+<!--    </insert>-->
+
+<!--    <insert id="insertBatch" keyProperty="coId" useGeneratedKeys="true">-->
+<!--        insert into comment(co_content, co_createtime, deleted, agreecount)-->
+<!--        values-->
+<!--        <foreach collection="entities" item="entity" separator=",">-->
+<!--        (#{entity.coContent}, #{entity.coCreatetime}, #{entity.deleted}, #{entity.agreecount})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+<!--    <insert id="insertOrUpdateBatch" keyProperty="coId" useGeneratedKeys="true">-->
+<!--        insert into comment(co_content, co_createtime, deleted, agreecount)-->
+<!--        values-->
+<!--        <foreach collection="entities" item="entity" separator=",">-->
+<!--            (#{entity.coContent}, #{entity.coCreatetime}, #{entity.deleted}, #{entity.agreecount})-->
+<!--        </foreach>-->
+<!--        on duplicate key update-->
+<!--        co_content = values(co_content),-->
+<!--        co_createtime = values(co_createtime),-->
+<!--        deleted = values(deleted),-->
+<!--        agreecount = values(agreecount)-->
+<!--    </insert>-->
+<!--    <insert id="add_article_comment">-->
+<!--        insert into article(at_id,co_id)-->
+<!--        values (#{at_id},#{co_id})-->
+<!--    </insert>-->
+<!--    <insert id="article_comment">-->
+<!--        insert into comment(co_content,co_createtime)-->
+<!--        values (#{co_content},now())-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash;通过主键修改数据&ndash;&gt;-->
+<!--    <update id="update">-->
+<!--        update comment-->
+<!--        <set>-->
+<!--            <if test="coContent != null and coContent != ''">-->
+<!--                co_content = #{coContent},-->
+<!--            </if>-->
+<!--            <if test="coCreatetime != null and coCreatetime != ''">-->
+<!--                co_createtime = #{coCreatetime},-->
+<!--            </if>-->
+<!--            <if test="deleted != null">-->
+<!--                deleted = #{deleted},-->
+<!--            </if>-->
+<!--            <if test="agreecount != null">-->
+<!--                agreecount = #{agreecount},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where co_id = #{coId}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash;通过主键删除&ndash;&gt;-->
+<!--    <delete id="deleteById">-->
+<!--        delete from comment where co_id = #{coId}-->
+<!--    </delete>-->
+
+</mapper>

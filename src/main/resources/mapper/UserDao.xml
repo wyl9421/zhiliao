@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiliao.app.dao.UserDao">
+
+    <resultMap type="com.zhiliao.app.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="INTEGER"/>
+        <result property="career" column="career" jdbcType="VARCHAR"/>
+        <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="registerdate" column="registerDate" jdbcType="TIMESTAMP"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="following" column="following" jdbcType="VARCHAR"/>
+        <result property="follower" column="follower" jdbcType="VARCHAR"/>
+        <result property="collectArticle" column="collect_article" jdbcType="VARCHAR"/>
+        <result property="collectAnswer" column="collect_answer" jdbcType="VARCHAR"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+        <result property="likeCount" column="like_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+<!--    &lt;!&ndash;查询单个&ndash;&gt;-->
+<!--    <select id="queryById" resultMap="UserMap">-->
+<!--        select-->
+<!--          id, name, password, nickname, gender, career, introduction, address, registerDate, email, following, follower, collect_article, collect_answer, answer, like_count-->
+<!--        from user-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;查询指定行数据&ndash;&gt;-->
+<!--    <select id="queryAllByLimit" resultMap="UserMap">-->
+<!--        select-->
+<!--          id, name, password, nickname, gender, career, introduction, address, registerDate, email, following, follower, collect_article, collect_answer, answer, like_count-->
+<!--        from user-->
+<!--        <where>-->
+<!--            <if test="id != null">-->
+<!--                and id = #{id}-->
+<!--            </if>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                and name = #{name}-->
+<!--            </if>-->
+<!--            <if test="password != null and password != ''">-->
+<!--                and password = #{password}-->
+<!--            </if>-->
+<!--            <if test="nickname != null and nickname != ''">-->
+<!--                and nickname = #{nickname}-->
+<!--            </if>-->
+<!--            <if test="gender != null">-->
+<!--                and gender = #{gender}-->
+<!--            </if>-->
+<!--            <if test="career != null and career != ''">-->
+<!--                and career = #{career}-->
+<!--            </if>-->
+<!--            <if test="introduction != null and introduction != ''">-->
+<!--                and introduction = #{introduction}-->
+<!--            </if>-->
+<!--            <if test="address != null and address != ''">-->
+<!--                and address = #{address}-->
+<!--            </if>-->
+<!--            <if test="registerdate != null">-->
+<!--                and registerDate = #{registerdate}-->
+<!--            </if>-->
+<!--            <if test="email != null and email != ''">-->
+<!--                and email = #{email}-->
+<!--            </if>-->
+<!--            <if test="following != null and following != ''">-->
+<!--                and following = #{following}-->
+<!--            </if>-->
+<!--            <if test="follower != null and follower != ''">-->
+<!--                and follower = #{follower}-->
+<!--            </if>-->
+<!--            <if test="collectArticle != null and collectArticle != ''">-->
+<!--                and collect_article = #{collectArticle}-->
+<!--            </if>-->
+<!--            <if test="collectAnswer != null and collectAnswer != ''">-->
+<!--                and collect_answer = #{collectAnswer}-->
+<!--            </if>-->
+<!--            <if test="answer != null and answer != ''">-->
+<!--                and answer = #{answer}-->
+<!--            </if>-->
+<!--            <if test="likeCount != null">-->
+<!--                and like_count = #{likeCount}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        limit #{pageable.offset}, #{pageable.pageSize}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;统计总行数&ndash;&gt;-->
+<!--    <select id="count" resultType="java.lang.Long">-->
+<!--        select count(1)-->
+<!--        from user-->
+<!--        <where>-->
+<!--            <if test="id != null">-->
+<!--                and id = #{id}-->
+<!--            </if>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                and name = #{name}-->
+<!--            </if>-->
+<!--            <if test="password != null and password != ''">-->
+<!--                and password = #{password}-->
+<!--            </if>-->
+<!--            <if test="nickname != null and nickname != ''">-->
+<!--                and nickname = #{nickname}-->
+<!--            </if>-->
+<!--            <if test="gender != null">-->
+<!--                and gender = #{gender}-->
+<!--            </if>-->
+<!--            <if test="career != null and career != ''">-->
+<!--                and career = #{career}-->
+<!--            </if>-->
+<!--            <if test="introduction != null and introduction != ''">-->
+<!--                and introduction = #{introduction}-->
+<!--            </if>-->
+<!--            <if test="address != null and address != ''">-->
+<!--                and address = #{address}-->
+<!--            </if>-->
+<!--            <if test="registerdate != null">-->
+<!--                and registerDate = #{registerdate}-->
+<!--            </if>-->
+<!--            <if test="email != null and email != ''">-->
+<!--                and email = #{email}-->
+<!--            </if>-->
+<!--            <if test="following != null and following != ''">-->
+<!--                and following = #{following}-->
+<!--            </if>-->
+<!--            <if test="follower != null and follower != ''">-->
+<!--                and follower = #{follower}-->
+<!--            </if>-->
+<!--            <if test="collectArticle != null and collectArticle != ''">-->
+<!--                and collect_article = #{collectArticle}-->
+<!--            </if>-->
+<!--            <if test="collectAnswer != null and collectAnswer != ''">-->
+<!--                and collect_answer = #{collectAnswer}-->
+<!--            </if>-->
+<!--            <if test="answer != null and answer != ''">-->
+<!--                and answer = #{answer}-->
+<!--            </if>-->
+<!--            <if test="likeCount != null">-->
+<!--                and like_count = #{likeCount}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!--新增所有列-->
+    <insert id="register" keyProperty="id" useGeneratedKeys="true">
+        insert into
+            user(name, password, nickname, gender, career, introduction, address, registerDate, email)
+        values (#{name}, #{password}, #{nickname}, #{gender}, #{career}, #{introduction}, #{address}, now(), #{email})
+    </insert>
+
+    <update id="destory">
+        update user set deleted = 1 where id=#{id}
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="career != null and career != ''">
+                career = #{career},
+            </if>
+            <if test="introduction != null and introduction != ''">
+                introduction = #{introduction},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="remove_collect_article">
+        update collect_article set deleted=1
+         where at_id=#{at_id} and id=#{id}
+    </update>
+
+    <!--    &lt;!&ndash;通过主键删除&ndash;&gt;-->
+<!--    <delete id="deleteById">-->
+<!--        delete from user where id = #{id}-->
+<!--    </delete>-->
+    <select id="login" resultType="com.zhiliao.app.entity.User">
+        select * from user where  name=#{principal}  and deleted=0
+    </select>
+    <select id="hasexisted" resultType="java.lang.Integer">
+        select count(*) from user where name=#{name} and password=#{password} and deleted=0
+    </select>
+
+</mapper>
+

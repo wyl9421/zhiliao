@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="../layui/jquery.min.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<script src="/layui/layui.js" type="text/javascript"></script>
+<body class="wrap">
+<div>
+    <div class="loginForm"
+         style="background-color: #5FB878;
+         opacity: 0.75;
+         font-weight: bold;">
+        <form>
+            <div class="logoHead">
+            </div>
+            <div class="usernameWrapDiv">
+                <div class="usernameLabel">
+                    <label>用户名:</label>
+                </div>
+                <div class="usernameDiv">
+                    <i class="layui-icon layui-icon-username adminIcon"></i>
+                    <input id="loginUsername" class="layui-input adminInput" type="text" name="name" placeholder="输入用户名"
+                           lay-verify="required">
+                </div>
+            </div>
+            <div class="usernameWrapDiv">
+                <div class="usernameLabel">
+                    <label>密码:</label>
+                </div>
+                <div class="passwordDiv">
+                    <i class="layui-icon layui-icon-password adminIcon"></i>
+                    <input id="loginPassword" class="layui-input adminInput" type="password" name="password"
+                           placeholder="输入密码" lay-verify="required">
+                </div>
+            </div>
+            <!--            <div class="usernameWrapDiv">-->
+            <!--                <div class="usernameLabel">-->
+            <!--                    <label>验证码:</label>-->
+            <!--                </div>-->
+            <!--                <div class="cardDiv">-->
+            <!--                    <input id="loginCard" class="layui-input cardInput" type="text" name="card" placeholder="输入验证码" lay-verify="required">-->
+            <!--                </div>-->
+            <!--                <div class="codeDiv">-->
+            <!--                    <input id="loginCode" class="layui-input codeInput"  type="button">-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="usernameWrapDiv">
+                <div class="submitLabel">
+                    <label>没有账号？
+                        <button id="btn-register" class="layui-bg-green">点击注册</button>
+                    </label>
+                </div>
+                <div class="submitDiv">
+                    <button id="loginBtn"  lay-submit lay-filter='login-submit'
+                            class="layui-btn" lay-submit value="登录">登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['layer', 'form', 'jquery'], function () {
+        let layer = layui.layer;
+        let form = layui.form;
+        let $ = layui.jquery;
+        // 登录流程
+        $("#loginBtn").click(function () {
+            form.on('submit(login-submit)', function (data) {
+                console.info('data');
+                $.post('/user/login', data.field, function (flag) {
+                    console.info(flag);
+                    if (flag) {
+                        location.href = "/index.html"
+                    } else {
+                        location.href = "/login.html"
+                    }
+                })
+                return false;//阻住提交action属性值
+            })
+        })
+        // 注册流程
+        $("#btn-register").click(function () {
+            layer.open({
+                type: 1,
+                title: '登录',
+                area: ['400px'],
+                closeBtn: 0,
+                content: $("#register-dialog").html()
+            })
+            form.on('submit(register-form-submit)', function (data) {
+                //console.info('hhh');
+                $.post('/user/register', data.field, function (flag) {
+                    if (flag) {
+                        layer.msg('恭喜你注册成功')
+                    } else {
+                        layer.msg('该用户已存在')
+                    }
+                })
+                return false;//阻住提交action属性值
+            })
+        })
+    })
+    // $(function () {
+    //     // 页面初始化生成验证码
+    //     window.onload = createCode('#loginCode');
+    //     // 验证码切换
+    //     $('#loginCode').click(function () {
+    //         createCode('#loginCode');
+    //     });
+    //     // 登陆事件
+    //     $('#loginBtn').click(function () {
+    //         login();
+    //     });
+    //     // 注册事件
+    //     $('#loginRegister').click(function () {
+    //         register();
+    //     });
+    // });
+
+    // 生成验证码
+    // function createCode(codeID) {
+    //     var code = "";
+    //     // 验证码dom元素
+    //     var checkCode = $(codeID);
+    //     // 验证码随机数
+    //     var random = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
+    //         'g', 'h', 'i', 'j', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    //     for (var i = 0; i < 4; i++) {
+    //         // 随机数索引
+    //         var index = Math.floor(Math.random() * 36);
+    //         code += random[index];
+    //     }
+    //     // 将生成的随机验证码赋值
+    //     checkCode.val(code);
+    // }
+
+    // 校验验证码、用户名、密码
+    // function validateCode(inputID, codeID) {
+    //     var inputCode = $(inputID).val().toUpperCase();
+    //     var cardCode = $(codeID).val();
+    //     var loginUsername = $('#loginUsername').val();
+    //     var loginPassword = $('#loginPassword').val();
+    //     if ($.trim(loginUsername) == '' || $.trim(loginUsername).length <= 0) {
+    //         layer.msg("用户名不能为空");
+    //         return false;
+    //     }
+    //     if ($.trim(loginPassword) == '' || $.trim(loginPassword).length <= 0) {
+    //         layer.msg("密码不能为空");
+    //         return false;
+    //     }
+    //     if (inputCode.length <= 0) {
+    //         layer.msg("验证码不能为空");
+    //         return false;
+    //     }
+    //     if (inputCode != cardCode) {
+    //         layer.msg("请输入正确验证码");
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+    // // 登录流程
+    // $("#loginBtn").click(function () {
+    //     form.on('submit(login-submit)', function (data) {
+    //         //console.info('hhh');
+    //         $.post('../user/login', data.field, function (flag) {
+    //             if (flag) {
+    //                 location.href = "/index.html"
+    //             } else {
+    //                 location.href = "/login.html"
+    //             }
+    //         })
+    //         return false;//阻住提交action属性值
+    //     })
+    // })
+    // // 注册流程
+    // $("#btn-register").click(function () {
+    //     layer.open({
+    //         type: 1,
+    //         title: '登录',
+    //         area: ['400px'],
+    //         closeBtn: 0,
+    //         content: $("#register-dialog").html()
+    //     })
+    //     form.on('submit(register-form-submit)', function (data) {
+    //         //console.info('hhh');
+    //         $.post('../user/register', data.field, function (flag) {
+    //             if (flag) {
+    //                 layer.msg('恭喜你注册成功')
+    //             } else {
+    //                 layer.msg('该用户已存在')
+    //             }
+    //         })
+    //         return false;//阻住提交action属性值
+    //     })
+    // })
+
+</script>
+
+<!--  注册对话框-->
+<script type="text/html" id="register-dialog">
+    <form class="layui-form" id="add-form">
+        <div class="layui-form-item">
+            <input type="text" name="name" required lay-verify="required"
+                   placeholder="用户名" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="password" required lay-verify="required"
+                   placeholder="密码" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="nickname" required lay-verify="required"
+                   placeholder="昵称" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="gander" required lay-verify="required"
+                   placeholder="性别" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="career" required lay-verify="required"
+                   placeholder="职业" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <textarea name="introduction" placeholder="个性签名" class="layui-textarea"></textarea>
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="address" required lay-verify="required"
+                   placeholder="地址" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="email" required lay-verify="required"
+                   placeholder="邮箱" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="register-form-submit">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</script>
+</body>
+</html>
