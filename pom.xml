@@ -118,7 +118,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>2.3.0.RELEASE</version>
         <configuration>
-          <mainClass>edu.dwlx.DwlxApplication</mainClass>
+          <mainClass>edu.zhiliao.ZhiliaoApplication</mainClass>
         </configuration>
         <executions>
           <execution>

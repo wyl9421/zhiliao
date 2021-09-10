@@ -1,9 +1,9 @@
-package edu.dwlx;
+package edu.zhiliao;
 
-import edu.dwlx.controller.hot.HotController;
-import edu.dwlx.entity.Answer;
-import edu.dwlx.entity.User;
-import edu.dwlx.services.UserService;
+import edu.zhiliao.controller.hot.HotController;
+import edu.zhiliao.entity.Answer;
+import edu.zhiliao.entity.User;
+import edu.zhiliao.services.UserService;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
